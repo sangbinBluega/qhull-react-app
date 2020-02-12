@@ -8,18 +8,9 @@
     <script type="text/javascript" src="js/blux-apx-1.1.js"></script>
     <script type="text/javascript" src="js/ts.mqf.qhull.js"></script>
     <!--%%DB-->
-    <script
-      type="text/javascript"
-      src="http://aspenux.com/tool/ecc/src/ts.pando.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="http://aspenux.com/tool/ecc/src/ts.ecc.mqf.stub.test.js"
-    ></script>
-    <script type="text/javascript" src="js/ts.mqf.qsubject.js"></script>
-    <script type="text/javascript" src="js/ts.mqf.qsubjectexe.js"></script>
+    <script type="text/javascript" src="http://aspenux.com/tool/ecc/src/ts.pando.js"></script>
+    <script type="text/javascript" src="http://aspenux.com/tool/ecc/src/ts.ecc.mqf.stub.test.js"></script>
     <script type="text/javascript" src="db/stub.js"></script>
-    <script type="text/javascript" src="db2/stub.js"></script>
 
     <title></title>
   </head>
