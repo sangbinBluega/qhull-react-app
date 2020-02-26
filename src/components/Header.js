@@ -162,7 +162,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "rgb(3,101,179)"
   },
   logo: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(1),
     pointerEvents: "none"
   },
   menuButton: {
@@ -178,7 +178,6 @@ const useStyles = makeStyles(theme => ({
   },
   typography: {
     color: "white",
-    marginLeft: "20px",
     fontFamily: "'Open Sans', sans-serif"
   }
 }));

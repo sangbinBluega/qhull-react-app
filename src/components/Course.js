@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 //icon
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
@@ -122,8 +123,9 @@ function courseRunQsetUi(url) {
   }
 }
 
-const Course = () => {
+const Course = value => {
   const [course, setCourse] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (course.length > 0) {
@@ -138,13 +140,27 @@ const Course = () => {
     window.tsQhull.init(function() {
       arrCourse.push(window.tsQhull.course);
       setCourse(arrCourse);
+      setLoading(false);
     });
   }, [course]);
 
   return (
     <>
+      {console.log()}
+      {loading && arrCourse.length === 0 && (
+        <div className="dim">
+          <div>
+            <CircularProgress />
+          </div>
+        </div>
+      )}
+
       {course !== "" && (
-        <TreeView className="nav" defaultExpanded={getTreeExpandedList(course)}>
+        <TreeView
+          className="nav"
+          defaultExpanded={getTreeExpandedList(course)}
+          style={{ display: value.selectValue === 1 ? "none" : "" }}
+        >
           {getTreeItemsFromData(course, 0)}
         </TreeView>
       )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Course from "../components/Course";
 import Subject from "../components/Subject";
 import { Scrollbars } from "react-custom-scrollbars";
@@ -39,6 +39,10 @@ const TreeContainer = () => {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    console.log("dddd");
+  }, [value]);
+
   return (
     <div id="course" className="course">
       <div className={classes.root}>
@@ -60,7 +64,9 @@ const TreeContainer = () => {
         </Tabs>
       </div>
       <Scrollbars style={{ height: "calc(100% - 72px)" }}>
-        {value !== 1 ? <Course /> : <Subject />}
+        {/* {value !== 1 ? <Course /> : <Subject />} */}
+        <Course selectValue={value} />
+        <Subject selectValue={value} />
       </Scrollbars>
     </div>
   );

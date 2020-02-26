@@ -2,6 +2,21 @@ $default-bg: #f8f9fa !default;
 $font-cr: gray !default;
 $hover-bg: #dadce0 !default;
 $hover-cr: black !default;
+$node-pt: 5px !default;
+
+//depth font size
+$depth1-fs: 17px !default;
+$depth2-fs: 15px !default;
+$depth3-fs: 15px !default;
+$depth4-fs: 15px !default;
+$depth5-fs: 15px !default;
+
+//depth padding Left
+$depth1-pl: 20px !default;
+$depth2-pl: 40px !default;
+$depth3-pl: 60px !default;
+$depth4-pl: 100px !default;
+$depth5-pl: 150px !default;
 
 .course * {
   font-family: "Open Sans", sans-serif;
@@ -43,8 +58,8 @@ li[name="depth1"] {
   }
 
   > div > div {
-    padding: 20px 20px;
-    font-size: 17px;
+    padding: $node-pt $depth1-pl;
+    font-size: $depth1-fs;
   }
 }
 
@@ -55,6 +70,7 @@ li[name="depth2"] {
   }
   > div {
     color: $font-cr;
+
     &:hover {
       color: $hover-cr;
       background: $hover-bg;
@@ -66,8 +82,9 @@ li[name="depth2"] {
   }
 
   > div > div {
-    padding: 20px 40px;
-    font-size: 15px;
+    padding: $node-pt $depth2-pl;
+    font-size: $depth2-fs;
+    font-weight: bold;
   }
 }
 
@@ -89,8 +106,8 @@ li[name="depth3"] {
   }
 
   > div > div {
-    padding: 20px 60px;
-    font-size: 13px;
+    padding: $node-pt $depth3-pl;
+    font-size: $depth3-fs;
   }
 }
 
@@ -112,8 +129,8 @@ li[name="depth4"] {
   }
 
   > div > div {
-    padding: 10px 100px;
-    font-size: 12px;
+    padding: $node-pt $depth4-pl;
+    font-size: $depth4-fs;
   }
 }
 
@@ -135,8 +152,8 @@ li[name="depth5"] {
   }
 
   > div > div {
-    padding: 10px 150px;
-    font-size: 12px;
+    padding: $node-pt $depth5-pl;
+    font-size: $depth5-fs;
   }
 }
 
@@ -160,5 +177,17 @@ li[name="depth5"] {
   margin-left: 5px;
   &:hover {
     opacity: 1;
+  }
+}
+
+.dim {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  // background-color: rgba(128, 128, 128, 0.2);
+
+  > div {
+    text-align: center;
+    padding-top: calc(50% - 20px);
   }
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
-import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 //icon
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
@@ -77,17 +77,12 @@ function getTreeItemsFromData(treeItems, depth) {
               ""
             )}
 
-            <span>{escapeHTML(treeItemData.Title)}</span>
+            <span>{treeItemData.Title}</span>
 
             {subjectButtonBuild(treeItemData, keyValue)}
           </div>
         }
         children={children}
-        onClick={() =>
-          function(event) {
-            console.log(event);
-          }
-        }
       />
     );
   });
@@ -126,7 +121,7 @@ function getTreeExpandedList(treeItems, depth) {
   return arrList;
 }
 
-function contentRun(Content) {
+function contentRun(event, Content) {
   let url = window.tsPando.contentGetExeURI(Content, window.tsQsbjTool._cfg, {
     trace: true
   });
@@ -138,6 +133,8 @@ function contentRun(Content) {
   while (element.hasChildNodes()) {
     element.removeChild(element.firstChild);
   }
+
+  event.stopPropagation();
 }
 
 function subjectButtonBuild(node, keyValue) {
@@ -192,8 +189,11 @@ function subjectOnLoad_buildAction(subjectID, keyValue) {
           key={`${keyValue}-${item._abbr}`}
           className="subjectButton"
           title={item._title}
-          onClick={() => {
-            contentRun(window.tsQsbjExe.subjectMakeContent(IdSubject, item));
+          onClick={event => {
+            contentRun(
+              event,
+              window.tsQsbjExe.subjectMakeContent(IdSubject, item)
+            );
           }}
           style={{ backgroundColor: item._clr || "#000000" }}
         >
@@ -204,37 +204,9 @@ function subjectOnLoad_buildAction(subjectID, keyValue) {
   }
 }
 
-function escapeHTML(text) {
-  return (text + "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/\'/g, "&apos;")
-    .replace(/\"/g, "&quot;")
-    .replace(/>/g, "&gt;");
-}
-
-const useStyles = makeStyles(theme => ({
-  selected: {
-    "&:focus": {
-      backgroundColor: "red"
-    }
-  }
-}));
-
-function contentRunT(e) {
-  e.target.childNodes[0].style.backgroundColor = null;
-  // form.addEventListener(
-  //   "focus",
-  //   function(event) {
-  //     this.style.backgroundColor = "pink";
-  //   },
-  //   true
-  // );
-}
-
-const Subject = () => {
+const Subject = value => {
   const [subject, setSubject] = useState([]);
-  const classes = useStyles();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (subject.length > 0) {
@@ -251,6 +223,7 @@ const Subject = () => {
         arrSubject.push(window.tsQsbjTool.tree);
         arrSubjectToQ = window.tsQsbjTool.mapSubjectToQ;
         setSubject(arrSubject);
+        setLoading(false);
       },
       function(level, log) {
         window.tsPando.log.call(window.tsQsbjTool, level, log);
@@ -260,14 +233,19 @@ const Subject = () => {
 
   return (
     <>
+      {loading && arrSubject.length === 0 && (
+        <div className="dim">
+          <div>
+            <CircularProgress />
+          </div>
+        </div>
+      )}
+
       {subject !== "" && (
         <TreeView
           className="nav"
-          itemProp={{ className: classes.selected }}
-          onFocus={e => {
-            contentRunT(e);
-          }}
           defaultExpanded={getTreeExpandedList(subject, 0)}
+          style={{ display: value.selectValue === 0 ? "none" : "" }}
         >
           {getTreeItemsFromData(subject, 0)}
         </TreeView>
