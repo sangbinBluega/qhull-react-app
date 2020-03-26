@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 //icon
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import TodayIcon from "@material-ui/icons/Today";
+
+import { Scrollbars } from "react-custom-scrollbars";
 
 let fromParent = "",
   keyValue = "",
@@ -123,7 +124,7 @@ function courseRunQsetUi(url) {
   }
 }
 
-const Course = value => {
+const Course = () => {
   const [course, setCourse] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -146,23 +147,36 @@ const Course = value => {
 
   return (
     <>
-      {console.log()}
-      {loading && arrCourse.length === 0 && (
+      {/* {loading && arrCourse.length === 0 && (
         <div className="dim">
           <div>
             <CircularProgress />
           </div>
         </div>
-      )}
+      )} */}
 
-      {course !== "" && (
-        <TreeView
-          className="nav"
-          defaultExpanded={getTreeExpandedList(course)}
-          style={{ display: value.selectValue === 1 ? "none" : "" }}
+      {course.length > 0 && (
+        <Scrollbars
+          id="courseTreeView"
+          style={{
+            visibility:
+              localStorage.getItem("treeValue") === "0" ||
+              !localStorage.getItem("treeValue")
+                ? "visible"
+                : "hidden",
+            height: "calc(100% - 72px)",
+            display: localStorage.getItem("treeValue") === "1" && "none"
+          }}
         >
-          {getTreeItemsFromData(course, 0)}
-        </TreeView>
+          <TreeView
+            className="nav"
+            defaultExpanded={getTreeExpandedList(course)}
+            style={{ height: "calc(100% - 72px)" }}
+          >
+            {getTreeItemsFromData(course, 0)}
+          </TreeView>
+          <>{loading}</>
+        </Scrollbars>
       )}
     </>
   );

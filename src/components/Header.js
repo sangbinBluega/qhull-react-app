@@ -159,7 +159,8 @@ const useStyles = makeStyles(theme => ({
     height: "60px",
     minHeight: "70px",
     zIndex: 1,
-    backgroundColor: "rgb(3,101,179)"
+    backgroundColor: "rgb(3,101,179)",
+    boxShadow: "none"
   },
   logo: {
     marginRight: theme.spacing(1),
@@ -174,7 +175,8 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     height: "100%",
     backgroundColor: "rgb(3,101,179)",
-    justifyContent: "center"
+    justifyContent: "center",
+    boxShadow: "none"
   },
   typography: {
     color: "white",

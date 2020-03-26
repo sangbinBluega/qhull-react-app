@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Course from "../components/Course";
 import Subject from "../components/Subject";
-import { Scrollbars } from "react-custom-scrollbars";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import GolfCourseIcon from "@material-ui/icons/GolfCourse";
 import SubjectIcon from "@material-ui/icons/Subject";
+
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -32,20 +33,57 @@ const TreeContainer = () => {
       ? 0
       : parseInt(localStorage.getItem("treeValue"))
   );
+
   const classes = useStyles(value);
 
   const handleChange = (event, newValue) => {
     localStorage.setItem("treeValue", newValue);
+
+    let courseTree = document.getElementById("courseTreeView").style;
+    let subjectTree = document.getElementById("subjectTreeView").style;
+
+    if (newValue === 0) {
+      courseTree.width = "100%";
+      courseTree.height = "calc(100% - 72px)";
+      courseTree.visibility = "visible";
+
+      subjectTree.width = "0px";
+      subjectTree.height = "0px";
+      subjectTree.visibility = "hidden";
+    } else {
+      courseTree.width = "0px";
+      courseTree.height = "0px";
+      courseTree.visibility = "hidden";
+
+      subjectTree.width = "100%";
+      subjectTree.height = "calc(100% - 72px)";
+      subjectTree.visibility = "visible";
+    }
+
     setValue(newValue);
   };
-
-  useEffect(() => {
-    console.log("dddd");
-  }, [value]);
 
   return (
     <div id="course" className="course">
       <div className={classes.root}>
+        <div
+          id="dimLoading"
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            width: "100%",
+            height: "100%",
+            zIndex: 1,
+            position: "fixed",
+            display: "flex",
+            alignItems: "center",
+            top: 0,
+            left: 0
+          }}
+        >
+          <div style={{ width: "100%", textAlign: "center" }}>
+            <CircularProgress disableShrink />
+          </div>
+        </div>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -63,11 +101,8 @@ const TreeContainer = () => {
           <Tab icon={<SubjectIcon />} label="Subject" />
         </Tabs>
       </div>
-      <Scrollbars style={{ height: "calc(100% - 72px)" }}>
-        {/* {value !== 1 ? <Course /> : <Subject />} */}
-        <Course selectValue={value} />
-        <Subject selectValue={value} />
-      </Scrollbars>
+      <Course />
+      <Subject />
     </div>
   );
 };

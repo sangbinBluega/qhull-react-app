@@ -28,21 +28,21 @@ const App = () => {
     localStorage.setItem("rightPaneHeight", rightPaneHeight);
   };
 
-  window.tsQhull.set("listener", "sensor", function(/*HTML String*/ msg) {
-    sendConsoleMessage(msg);
-  });
+  // window.tsQhull.set("listener", "sensor", function(/*HTML String*/ msg) {
+  //   sendConsoleMessage(msg);
+  // });
 
-  window.tsQsbjExe.set("listener", "sensor", function(/*HTML String*/ msg) {
-    sendConsoleMessage(msg);
-  });
+  // window.tsQsbjExe.set("listener", "sensor", function(/*HTML String*/ msg) {
+  //   sendConsoleMessage(msg);
+  // });
 
-  const sendConsoleMessage = msg => {
-    document.getElementById("console").innerHTML += msg;
-    let consoleElement = document.getElementById("console");
-    let scrollElement = document.getElementById("consoleScroll");
-    consoleElement.scrollTop = consoleElement.scrollHeight;
-    scrollElement.childNodes[0].scrollTop = consoleElement.scrollHeight;
-  };
+  // const sendConsoleMessage = msg => {
+  //   document.getElementById("console").innerHTML += msg;
+  //   let consoleElement = document.getElementById("console");
+  //   let scrollElement = document.getElementById("consoleScroll");
+  //   consoleElement.scrollTop = consoleElement.scrollHeight;
+  //   scrollElement.childNodes[0].scrollTop = consoleElement.scrollHeight;
+  // };
 
   if (document.getElementsByTagName("TITLE").length) {
     try {
