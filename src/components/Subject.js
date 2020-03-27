@@ -19,7 +19,17 @@ const Subject = () => {
 
   useEffect(() => {
     if (subject.length > 0) {
+      let buttons = ["courseIcon", "viewIcon", "consoleIcon", "clearIcon"];
+
+      buttons.forEach(function(item) {
+        let element = document.getElementById(item).style;
+        element.opacity = 1;
+        element.pointerEvents = "";
+      });
+
       document.getElementById("dimLoading").style.display = "none";
+      document.getElementById("circularDiv").style.display = "none";
+
       let consoleElement = document.getElementById("console");
       let scrollElement = document.getElementById("consoleScroll");
       consoleElement.scrollTop = consoleElement.scrollHeight;

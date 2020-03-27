@@ -171,6 +171,10 @@ const useStyles = makeStyles(theme => ({
     color: "white",
     marginRight: theme.spacing(1)
   },
+  icons: {
+    pointerEvents: "none",
+    opacity: "0.3"
+  },
   appBar: {
     width: "100%",
     height: "100%",
@@ -216,7 +220,7 @@ const Header = () => {
               onClick={visibilityCourse}
               title="Hide Course pane"
             >
-              <AccountTreeIcon />
+              <AccountTreeIcon id="courseIcon" className={classes.icons} />
             </IconButton>
 
             <IconButton
@@ -228,7 +232,7 @@ const Header = () => {
               onClick={visibilityView}
               title="Hide Preview pane"
             >
-              <DesktopWindowsIcon />
+              <DesktopWindowsIcon id="viewIcon" className={classes.icons} />
             </IconButton>
 
             <IconButton
@@ -240,7 +244,7 @@ const Header = () => {
               onClick={visibilityConsole}
               title="Hide Console pane"
             >
-              <PolymerIcon />
+              <PolymerIcon id="consoleIcon" className={classes.icons} />
             </IconButton>
           </div>
         </Toolbar>

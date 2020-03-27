@@ -79,11 +79,23 @@ const TreeContainer = () => {
             top: 0,
             left: 0
           }}
+        ></div>
+
+        <div
+          id="circularDiv"
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center"
+          }}
         >
           <div style={{ width: "100%", textAlign: "center" }}>
             <CircularProgress disableShrink />
           </div>
         </div>
+
         <Tabs
           value={value}
           onChange={handleChange}

@@ -53,7 +53,10 @@ const Console = () => {
           onClick={clearConsole}
           title="Clear"
         >
-          <DeleteForeverIcon style={{ fontSize: "20px" }} />
+          <DeleteForeverIcon
+            id="clearIcon"
+            style={{ fontSize: "20px", pointerEvents: "none", opacity: "0.3" }}
+          />
         </IconButton>
       </div>
 
