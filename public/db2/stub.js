@@ -24,6 +24,7 @@ tsQsbjExe.set("ui", "title", "주제 실행기");
 tsQsbjExe.set("ui", "titleLogo", "db/titleLogo.png");
 tsQsbjExe.set("ui", "fullLogo", "db/fullLogo.png");
 tsQsbjExe.set("ui", "contentRatio", "0.5625"); // 720/1280
+tsQsbjExe.set("ui", "disabled", false);
 
 //  TREE 상단 구성 정보
 tsQsbjExe.set("ui", "bootStrapSubject", {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Course from "../components/Course";
 import Subject from "../components/Subject";
 
@@ -15,6 +15,10 @@ import { makeStyles } from "@material-ui/core/styles";
 //style
 import "../styles/tree.scss";
 
+const courseDisabled = window.tsQhull.get("ui", "disabled");
+const subjectDisabled = window.tsQsbjExe.get("ui", "disabled");
+const localTreeValue = localStorage.getItem("treeValue");
+
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
@@ -28,15 +32,31 @@ const useStyles = makeStyles({
 });
 
 const TreeContainer = () => {
-  const [value, setValue] = React.useState(
-    !localStorage.getItem("treeValue")
+  const [value, setValue] = useState(
+    !localTreeValue && !courseDisabled
       ? 0
-      : parseInt(localStorage.getItem("treeValue"))
+      : !localTreeValue && !subjectDisabled
+      ? 1
+      : parseInt(localTreeValue)
   );
+
+  if (localTreeValue) {
+    if (subjectDisabled) {
+      localStorage.setItem("treeValue", 0);
+    } else if (courseDisabled) {
+      localStorage.setItem("treeValue", 1);
+    }
+  } else {
+    localStorage.setItem("treeValue", value);
+  }
 
   const classes = useStyles(value);
 
   const handleChange = (event, newValue) => {
+    if (courseDisabled || subjectDisabled) {
+      return;
+    }
+
     localStorage.setItem("treeValue", newValue);
 
     let courseTree = document.getElementById("courseTreeView").style;
@@ -97,7 +117,7 @@ const TreeContainer = () => {
         </div>
 
         <Tabs
-          value={value}
+          value={courseDisabled || subjectDisabled ? 0 : value}
           onChange={handleChange}
           variant="fullWidth"
           indicatorColor="primary"
@@ -106,15 +126,18 @@ const TreeContainer = () => {
           scrollButtons="off"
           className={classes.tabs}
           TabIndicatorProps={{
-            style: { left: value !== 1 ? "0%" : "50%", width: "50%" }
+            style: {
+              left: value !== 1 ? "0%" : "50%",
+              width: courseDisabled || subjectDisabled ? "0%" : "50%"
+            }
           }}
         >
-          <Tab icon={<GolfCourseIcon />} label="Course" />
-          <Tab icon={<SubjectIcon />} label="Subject" />
+          {!courseDisabled && <Tab icon={<GolfCourseIcon />} label="Course" />}
+          {!subjectDisabled && <Tab icon={<SubjectIcon />} label="Subject" />}
         </Tabs>
       </div>
-      <Course />
-      <Subject />
+      {!courseDisabled && <Course />}
+      {!subjectDisabled && <Subject />}
     </div>
   );
 };

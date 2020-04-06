@@ -139,6 +139,11 @@ const Course = () => {
     }
 
     window.tsQhull.init(function() {
+      if (window.tsQsbjExe.get("ui", "disabled")) {
+        document.getElementById("dimLoading").style.display = "none";
+        document.getElementById("circularDiv").style.display = "none";
+      }
+
       arrCourse.push(window.tsQhull.course);
       setCourse(arrCourse);
       setLoading(false);
@@ -147,14 +152,6 @@ const Course = () => {
 
   return (
     <>
-      {/* {loading && arrCourse.length === 0 && (
-        <div className="dim">
-          <div>
-            <CircularProgress />
-          </div>
-        </div>
-      )} */}
-
       {course.length > 0 && (
         <Scrollbars
           id="courseTreeView"
