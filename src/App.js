@@ -28,13 +28,13 @@ const App = () => {
     localStorage.setItem("rightPaneHeight", rightPaneHeight);
   };
 
-  // window.tsQhull.set("listener", "sensor", function(/*HTML String*/ msg) {
-  //   sendConsoleMessage(msg);
-  // });
+  //window.tsQhull.set("listener", "sensor", function(/*HTML String*/ msg) {
+  //sendConsoleMessage(msg);
+  //});
 
-  // window.tsQsbjExe.set("listener", "sensor", function(/*HTML String*/ msg) {
-  //   sendConsoleMessage(msg);
-  // });
+  //window.tsQsbjExe.set("listener", "sensor", function(/*HTML String*/ msg) {
+  //sendConsoleMessage(msg);
+  //});
 
   // const sendConsoleMessage = msg => {
   //   document.getElementById("console").innerHTML += msg;

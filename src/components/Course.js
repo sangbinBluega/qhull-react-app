@@ -126,7 +126,6 @@ function courseRunQsetUi(url) {
 
 const Course = () => {
   const [course, setCourse] = useState("");
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (course.length > 0) {
@@ -146,7 +145,6 @@ const Course = () => {
 
       arrCourse.push(window.tsQhull.course);
       setCourse(arrCourse);
-      setLoading(false);
     });
   }, [course]);
 
@@ -172,7 +170,6 @@ const Course = () => {
           >
             {getTreeItemsFromData(course, 0)}
           </TreeView>
-          <>{loading}</>
         </Scrollbars>
       )}
     </>

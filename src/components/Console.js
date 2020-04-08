@@ -16,7 +16,6 @@ const Console = () => {
   const classes = useStyles();
   const refConsole = useRef();
   const refConsoleScroll = useRef();
-
   window.tsQhull.set("listener", "sensor", function(/*HTML String*/ msg) {
     sendConsoleMessage(msg);
   });
@@ -34,7 +33,6 @@ const Console = () => {
   };
 
   const clearConsole = () => {
-    console.error(refConsole);
     let element = document.getElementById("console");
     while (element.hasChildNodes()) {
       element.removeChild(element.firstChild);
