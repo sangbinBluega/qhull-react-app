@@ -1,176 +1,225 @@
 import React, { useEffect, useState } from "react";
+import { withStyles } from "@material-ui/core/styles";
 import TreeView from "@material-ui/lab/TreeView";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import TreeItem from "@material-ui/lab/TreeItem";
-
-//icon
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
-import TodayIcon from "@material-ui/icons/Today";
-import CreateIcon from "@material-ui/icons/Create";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { Scrollbars } from "react-custom-scrollbars";
 
-let keyValue = "",
-  arrSubject = [],
-  arrSubjectToQ = [];
+let arrSubject = [],
+  arrSubjectToQ = [],
+  arrInit = {};
+
+// const useStyles = makeStyles({
+//   root: {
+//     height: 240,
+//     flexGrow: 1,
+//     maxWidth: 400,
+//   },
+// });
+
+const GlobalCss = withStyles({
+  // @global is handled by jss-plugin-global.
+  "@global": {
+    // You should target [class*="MuiButton-root"] instead if you nest themes.
+
+    ".MuiTreeItem-root.Mui-selected > .MuiTreeItem-content .MuiTreeItem-label": {
+      backgroundColor: "rgba(0,0,0,0)",
+    },
+  },
+})(() => null);
 
 const Subject = () => {
-  const [subject, setSubject] = useState([]);
+  //const classes = useStyles();
+  const [initData, setInitData] = useState(false);
+  //const [subjectData, setSubjectData] = useState([]);
 
   useEffect(() => {
-    if (subject.length > 0) {
-      let buttons = ["courseIcon", "viewIcon", "consoleIcon", "clearIcon"];
-
-      buttons.forEach(function(item) {
-        let element = document.getElementById(item).style;
-        element.opacity = 1;
-        element.pointerEvents = "";
-      });
-
-      document.getElementById("dimLoading").style.display = "none";
-      document.getElementById("circularDiv").style.display = "none";
-
-      let consoleElement = document.getElementById("console");
-      let scrollElement = document.getElementById("consoleScroll");
-      consoleElement.scrollTop = consoleElement.scrollHeight;
-      scrollElement.childNodes[0].scrollTop = consoleElement.scrollHeight;
+    if (initData) {
       return;
     }
 
     window.tsQsbjTool.init(
-      function() {
-        arrSubject.push(window.tsQsbjTool.tree);
+      function () {
+        // const getTreeItemsFromData = (treeItems, depth, idx) => {
+        //   depth = depth || 0;
+
+        //   return treeItems.map((treeItemData, index) => {
+        //     let children = undefined;
+
+        //     if (treeItemData.childNode && treeItemData.childNode.length > 0) {
+        //       if (index === 0) {
+        //         depth++;
+        //       }
+
+        //       children = getTreeItemsFromData(
+        //         treeItemData.childNode,
+        //         depth,
+        //         index
+        //       );
+        //     } else {
+        //       if (index === 0) {
+        //         depth++;
+        //       }
+        //     }
+
+        //     return {
+        //       name: treeItemData.Title,
+        //       itemData: treeItemData,
+        //       depth: `depth${depth}`,
+        //       childNode: children,
+        //     };
+        //   });
+        // };
+
+        arrSubject = window.tsQsbjTool.tree;
+
+        arrInit = {
+          id: "title",
+          name: arrSubject.Title,
+          childNode: arrSubject.childNode,
+          itemData: arrSubject,
+          depth: "depth1",
+        };
+
+        //arrSubject = getTreeItemsFromData(arrSubject.childNode, 1, "title");
         arrSubjectToQ = window.tsQsbjTool.mapSubjectToQ;
-        setSubject([window.tsQsbjTool.tree]);
+
+        let buttons = ["courseIcon", "viewIcon", "consoleIcon", "clearIcon"];
+
+        buttons.forEach(function (item) {
+          let element = document.getElementById(item).style;
+          element.opacity = 1;
+          element.pointerEvents = "";
+        });
+
+        document.getElementById("dimLoading").style.display = "none";
+        document.getElementById("circularDiv").style.display = "none";
+
+        setInitData(true);
       },
-      function(level, log) {
+      function (level, log) {
         window.tsPando.log.call(window.tsQsbjTool, level, log);
       }
     );
-  }, [subject]);
+  }, [initData]);
 
-  const getTreeItemsFromData = (treeItems, depth) => {
-    depth = depth || 0;
-
-    return treeItems.map((treeItemData, index) => {
-      let children = undefined;
-
-      if (treeItemData.childNode && treeItemData.childNode.length > 0) {
-        if (index === 0) {
-          depth++;
-        }
-
-        children = getTreeItemsFromData(treeItemData.childNode, depth);
-      } else {
-        if (index === 0) {
-          depth++;
-        }
-      }
-
-      if (depth !== 1) {
-        keyValue = !treeItemData.id
-          ? `${
-              !treeItemData.rule.category
-                ? treeItemData.rule.id
-                : treeItemData.rule.category
-            }-${treeItemData.Title}`
-          : `${treeItemData.id}-${treeItemData.Title}`;
-      } else {
-        keyValue = treeItemData.Title;
-      }
-
-      //console.log(`key > ${keyValue}`);
-
-      return (
-        <TreeItem
-          key={keyValue}
-          nodeId={keyValue}
-          name={`depth${depth}`}
-          title={treeItemData.id ? treeItemData.id : ""}
-          label={
-            <div>
-              {depth === 1 ? (
-                <BookmarkBorderIcon
-                  className="icon"
-                  style={{ fontSize: "25px", marginTop: "1px" }}
-                />
-              ) : depth === 2 ? (
-                <MenuBookIcon
-                  className="icon"
-                  style={{ fontSize: "20px", marginTop: "1px" }}
-                />
-              ) : depth === 3 ? (
-                <TodayIcon
-                  className="icon"
-                  style={{ fontSize: "15px", marginTop: "3px" }}
-                />
-              ) : depth === 4 ? (
-                <CreateIcon
-                  className="icon"
-                  style={{ fontSize: "15px", marginTop: "2px" }}
-                />
-              ) : (
-                ""
-              )}
-
-              <span>{treeItemData.Title}</span>
-
-              {subjectButtonBuild(treeItemData, keyValue)}
+  return (
+    <>
+      {initData && (
+        // <div>
+        //   <div
+        //     style={{
+        //       position: "absolute",
+        //       width: "100%",
+        //       height: "calc(100% - 72px)",
+        //       display: "flex",
+        //       alignItems: "center",
+        //       zIndex: 1,
+        //     }}
+        //   >
+        //     <div style={{ width: "100%", textAlign: "center" }}>
+        //       <CircularProgress disableShrink />
+        //     </div>
+        //   </div>
+        // </div>
+        <>
+          <div id="loading" style={{ display: "none" }}>
+            <div
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: "calc(100% - 72px)",
+                display: "flex",
+                alignItems: "center",
+                zIndex: 1,
+              }}
+            >
+              <div style={{ width: "100%", textAlign: "center" }}>
+                <CircularProgress disableShrink />
+              </div>
             </div>
-          }
-          children={children}
-        />
-      );
-    });
-  };
+          </div>
 
-  let arrList = [],
-    keyData = "";
+          <Scrollbars
+            id="subjectTreeView"
+            style={{ height: "calc(100% - 72px)" }}
+          >
+            <GlobalCss />
+            <MyTreeItem
+              id={arrInit.id}
+              name={arrInit.name}
+              childNode={arrInit.childNode}
+              itemData={arrInit.itemData}
+              depth={arrInit.depth}
+            />
+          </Scrollbars>
+        </>
+      )}
+    </>
+  );
+};
 
-  const getTreeExpandedList = (treeItems, depth) => {
-    depth = depth || 0;
+const MyTreeItem = (props) => {
+  //const classes = useStyles();
+  const [childNodes, setChildNodes] = useState(null);
+  const [expanded, setExpanded] = useState([]);
 
-    treeItems.forEach(function(item, index) {
-      if (item.childNode && item.childNode.length > 0) {
-        if (index === 0) {
-          depth++;
-        }
+  function fetchChildNodes(id) {
+    let data = arrSubject.childNode;
 
-        if (depth !== 1) {
-          keyData = !item.id
-            ? `${!item.rule.category ? item.rule.id : item.rule.category}-${
-                item.Title
-              }`
-            : `${item.id}-${item.Title}`;
-        } else {
-          keyData = item.Title;
-        }
+    let depth = 2;
 
-        arrList.push(keyData);
-        getTreeExpandedList(item.childNode, depth);
-      } else {
-        if (index === 0) {
-          depth++;
-        }
+    if (id !== "title") {
+      let arrId = id.split("-");
+
+      data = arrSubject.childNode;
+      for (let i = 1; i < arrId.length; i++) {
+        data = data[arrId[i]].childNode;
+        depth++;
       }
-    });
-    return arrList;
-  };
-
-  const contentRun = (event, Content) => {
-    let url = window.tsPando.contentGetExeURI(Content, window.tsQsbjTool._cfg, {
-      trace: true
-    });
-
-    document.getElementById("view").src = url;
-
-    let element = document.getElementById("console");
-
-    while (element.hasChildNodes()) {
-      element.removeChild(element.firstChild);
     }
 
-    event.stopPropagation();
+    let childrenData = [];
+
+    childrenData.push(
+      data.map((item, index) => {
+        return {
+          id: id + "-" + index,
+          name: item.Title,
+          childNode: item.childNode,
+          itemData: item,
+          depth: `depth${depth}`,
+        };
+      })
+    );
+
+    return new Promise((resolve) => {
+      document.getElementById("loading").style.display = "block";
+
+      setTimeout(() => {
+        resolve({
+          children: childrenData[0],
+        });
+        document.getElementById("loading").style.display = "none";
+      }, 1000);
+    });
+  }
+
+  const handleChange = (event, nodes) => {
+    const expandingNodes = nodes.filter((x) => !expanded.includes(x));
+    setExpanded(nodes);
+    if (expandingNodes[0]) {
+      const childId = expandingNodes[0];
+
+      fetchChildNodes(childId).then((result) => {
+        return setChildNodes(
+          result.children.map((node) => <MyTreeItem key={node.id} {...node} />)
+        );
+      });
+    }
   };
 
   const subjectButtonBuild = (node, keyValue) => {
@@ -222,13 +271,13 @@ const Subject = () => {
       //  실행이 가능한 QSETUI
       let qsetUi = window.tsQsbjExe.subjectGetQsetui(IdSubject);
 
-      return qsetUi.map(function(item) {
+      return qsetUi.map(function (item) {
         return (
           <span
             key={`${keyValue}-${item._abbr}`}
             className="subjectButton"
             title={item._title}
-            onClick={event => {
+            onClick={(event) => {
               contentRun(
                 event,
                 window.tsQsbjExe.subjectMakeContent(IdSubject, item)
@@ -243,28 +292,46 @@ const Subject = () => {
     }
   };
 
+  const contentRun = (event, Content) => {
+    let url = window.tsPando.contentGetExeURI(Content, window.tsQsbjTool._cfg, {
+      trace: true,
+    });
+
+    document.getElementById("view").src = url;
+
+    let element = document.getElementById("console");
+
+    while (element.hasChildNodes()) {
+      element.removeChild(element.firstChild);
+    }
+
+    event.stopPropagation();
+  };
+
   return (
     <>
-      {subject.length > 0 && (
-        <Scrollbars
-          id="subjectTreeView"
-          style={{
-            visibility:
-              localStorage.getItem("treeValue") === "1" ? "visible" : "hidden",
-            height: "calc(100% - 72px)"
-          }}
+      <TreeView
+        defaultCollapseIcon={<ExpandMoreIcon />}
+        defaultExpandIcon={<ChevronRightIcon />}
+        expanded={expanded}
+        onNodeToggle={handleChange}
+      >
+        {/*The node below should act as the root node for now */}
+        <TreeItem
+          nodeId={props.id}
+          label={
+            <div>
+              <span>{props.name}</span>
+              {subjectButtonBuild(props.itemData, props.id)}
+            </div>
+          }
+          name={props.depth}
         >
-          <TreeView
-            className="nav"
-            defaultExpanded={getTreeExpandedList(subject, 0)}
-            style={{ height: "calc(100% - 72px)" }}
-          >
-            {getTreeItemsFromData(subject, 0)}
-          </TreeView>
-        </Scrollbars>
-      )}
+          {props.childNode ? childNodes || [<div key="stub" />] : null}
+        </TreeItem>
+      </TreeView>
     </>
   );
 };
 
-export default React.memo(Subject);
+export default Subject;

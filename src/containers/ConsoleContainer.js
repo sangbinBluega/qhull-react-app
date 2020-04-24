@@ -1,5 +1,5 @@
 import React from "react";
-import Console from "../components/Console.js";
+import Console from "../components/Console2.js";
 
 import "../styles/console.scss";
 

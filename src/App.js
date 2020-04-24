@@ -55,20 +55,20 @@ const App = () => {
   function onChangeCourse(e) {
     sendMessage({
       method: "resize",
-      width: e
+      width: e,
     });
   }
 
   function onChangeFrame(e) {
     sendMessage({
       method: "resize",
-      height: e
+      height: e,
     });
   }
 
   function sendMessage(msg) {
     var child = document.getElementById("view");
-    child.contentWindow.postMessage(msg);
+    child.contentWindow.postMessage(msg, "*");
   }
 
   return (

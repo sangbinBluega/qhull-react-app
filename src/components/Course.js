@@ -6,6 +6,8 @@ import TreeItem from "@material-ui/lab/TreeItem";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import TodayIcon from "@material-ui/icons/Today";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import { Scrollbars } from "react-custom-scrollbars";
 
@@ -56,30 +58,31 @@ function getTreeItemsFromData(treeItems, depth) {
         key={keyValue}
         nodeId={keyValue}
         name={`depth${depth}`}
-        label={
-          <div>
-            {depth === 1 ? (
-              <BookmarkBorderIcon
-                className="icon"
-                style={{ fontSize: "25px", marginTop: "1px" }}
-              />
-            ) : depth === 2 ? (
-              <MenuBookIcon
-                className="icon"
-                style={{ fontSize: "20px", marginTop: "1px" }}
-              />
-            ) : depth === 3 ? (
-              <TodayIcon
-                className="icon"
-                style={{ fontSize: "15px", marginTop: "3px" }}
-              />
-            ) : (
-              ""
-            )}
+        // label={
+        //   <div>
+        //     {depth === 1 ? (
+        //       <BookmarkBorderIcon
+        //         className="icon"
+        //         style={{ fontSize: "25px", marginTop: "1px" }}
+        //       />
+        //     ) : depth === 2 ? (
+        //       <MenuBookIcon
+        //         className="icon"
+        //         style={{ fontSize: "20px", marginTop: "1px" }}
+        //       />
+        //     ) : depth === 3 ? (
+        //       <TodayIcon
+        //         className="icon"
+        //         style={{ fontSize: "15px", marginTop: "3px" }}
+        //       />
+        //     ) : (
+        //       ""
+        //     )}
 
-            <span>{treeItemData.Title}</span>
-          </div>
-        }
+        //     <span>{treeItemData.Title}</span>
+        //   </div>
+        // }
+        label={treeItemData.Title}
         children={children}
         onClick={() => {
           courseRunQsetUi(url);
@@ -95,7 +98,7 @@ let arrList = [],
   keyData = "";
 
 function getTreeExpandedList(treeItems) {
-  treeItems.forEach(function(item) {
+  treeItems.forEach(function (item) {
     if (item.childNode && item.childNode.length > 0) {
       expandedParent = item.Title;
       if (noTitle) {
@@ -137,7 +140,7 @@ const Course = () => {
       return;
     }
 
-    window.tsQhull.init(function() {
+    window.tsQhull.init(function () {
       if (window.tsQsbjExe.get("ui", "disabled")) {
         document.getElementById("dimLoading").style.display = "none";
         document.getElementById("circularDiv").style.display = "none";
@@ -160,13 +163,15 @@ const Course = () => {
                 ? "visible"
                 : "hidden",
             height: "calc(100% - 72px)",
-            display: localStorage.getItem("treeValue") === "1" && "none"
+            display: localStorage.getItem("treeValue") === "1" && "none",
           }}
         >
           <TreeView
             className="nav"
             defaultExpanded={getTreeExpandedList(course)}
             style={{ height: "calc(100% - 72px)" }}
+            defaultCollapseIcon={<ExpandMoreIcon />}
+            defaultExpandIcon={<ChevronRightIcon />}
           >
             {getTreeItemsFromData(course, 0)}
           </TreeView>

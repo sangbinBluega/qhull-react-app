@@ -22,8 +22,8 @@ const localTreeValue = localStorage.getItem("treeValue");
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
-    backgroundColor: "rgb(228 ,234 ,239)"
-  }
+    backgroundColor: "rgb(228 ,234 ,239)",
+  },
   /* 값 전달 할 수도 있음 (참고용) */
   // indicator: props => ({
   //   left: props !== 1 ? "0%" : "50%",
@@ -97,7 +97,7 @@ const TreeContainer = () => {
             display: "flex",
             alignItems: "center",
             top: 0,
-            left: 0
+            left: 0,
           }}
         ></div>
 
@@ -108,7 +108,7 @@ const TreeContainer = () => {
             width: "100%",
             height: "100%",
             display: "flex",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <div style={{ width: "100%", textAlign: "center" }}>
@@ -128,8 +128,8 @@ const TreeContainer = () => {
           TabIndicatorProps={{
             style: {
               left: value !== 1 ? "0%" : "50%",
-              width: courseDisabled || subjectDisabled ? "0%" : "50%"
-            }
+              width: courseDisabled || subjectDisabled ? "0%" : "50%",
+            },
           }}
         >
           {!courseDisabled && <Tab icon={<GolfCourseIcon />} label="Course" />}
